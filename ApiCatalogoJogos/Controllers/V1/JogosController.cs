@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiCatalogoJogos.Models.InputModel;
+using ApiCatalogoJogos.Models.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,25 +14,25 @@ namespace ApiCatalogoJogos.Controllers.V1
     public class JogosController : ControllerBase
     {
         [HttpGet] //routting attribute, neste caso indica que temos um método get - ver: https://docs.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
-        public async Task<ActionResult<List<object>>> Obter() //Aqui temos um método assincrono, "Task" é um tipo de objeto que mantém tarefas em andamento, neste caso, o retorno de nosso método será dado quando tivermos o action result com uma listagem de objetos, a execução, por sua vez, estará livre para outras operações, mesmo antes de termos esse retorno - podemos ter muitas outras tasks rodando - ver: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/
+        public async Task<ActionResult<List<JogoViewModel>>> Obter() //Aqui temos um método assincrono, "Task" é um tipo de objeto que mantém tarefas em andamento, neste caso, o retorno de nosso método será dado quando tivermos o action result com uma listagem de objetos, a execução, por sua vez, estará livre para outras operações, mesmo antes de termos esse retorno - podemos ter muitas outras tasks rodando - ver: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/
         {
             return Ok();
         }
 
         [HttpGet("{idJogo:guid}")] //passa o valor de idJogo, do método abaixo, para a rota do atributo
-        public async Task<ActionResult<object>> Obter(Guid idJogo)
+        public async Task<ActionResult<JogoViewModel>> Obter(Guid idJogo)
         {
             return Ok();
         }
 
         [HttpPost]
-        public async Task<ActionResult<object>> InserirJogo(object jogo) //precisamos passar o objeto jogo, que ainda não definimos
+        public async Task<ActionResult<JogoViewModel>> InserirJogo(JogoInputModel jogo) //este método, espera receber um objeto do tipo DTO
         {
             return Ok();
         }
 
         [HttpPut("{idJogo:guid}")]
-        public async Task<ActionResult> AtualizarJogo(Guid idJogo, object jogo) //o nosso task, aqui, só retornará um action result indicando sucesso ou falha
+        public async Task<ActionResult> AtualizarJogo(Guid idJogo, JogoInputModel jogo) //o nosso task, aqui, só retornará um action result indicando sucesso ou falha
         {
             return Ok();
         }
