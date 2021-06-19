@@ -1,4 +1,5 @@
-﻿using ApiCatalogoJogos.Models.InputModel;
+﻿using ApiCatalogoJogos.Exceptions;
+using ApiCatalogoJogos.Models.InputModel;
 using ApiCatalogoJogos.Models.ViewModel;
 using ApiCatalogoJogos.Services;
 using Microsoft.AspNetCore.Http;
@@ -16,9 +17,16 @@ namespace ApiCatalogoJogos.Controllers.V1
     public class JogosController : ControllerBase
     {
         
-        private readonly IJogoService _jogoService; //criamos uma propriedade, do tipo do nosso serviço, como private, já que será o asp.net quem terá a responsabilidade de instanciá-la
-
-        //construtor para nossa instância de IJogoService (a propriedade instanciada acima)
+        /*
+         * Nossos serviços (JogoService.cs) consistem em uma CLASSE, dessa forma, para pormos utilizá-los, precisamos criar uma instância da classe.
+         * 
+         * Não tenho claro o porquê de instanciar a classe JogoService passando-se a Interface, mas para isso 
+         * 
+         * precisamos passar para o container do ASP.NET que instância deve ser dada para o caso do objeto IJogoService sendo passado para o construtor
+         * Isso é configurado no Startup.cs no método ConfigureServices
+         */ 
+        private readonly IJogoService _jogoService; 
+                
         public JogosController(IJogoService jogoService)
         {
             _jogoService = jogoService;
@@ -58,8 +66,7 @@ namespace ApiCatalogoJogos.Controllers.V1
 
                 return Ok(jogo);
             }
-            //catch (JogoJaCadastradoException ex)
-            catch(Exception ex)
+            catch (JogoJaCadastradoException ex)
             {
                 return UnprocessableEntity("Já existe um jogo com este nome para esta produtora");
             }
@@ -74,15 +81,14 @@ namespace ApiCatalogoJogos.Controllers.V1
 
                 return Ok();
             }
-            //catch (JogoNaoCadastradoException ex)
-            catch (Exception ex)
+            catch (JogoNaoCadastradoException ex)
             {
                 return NotFound("Não existe este jogo");
             }
         }
 
         //o httpPatch é similar ao put, mas nos permite atualizar apenas um campo do objeto, neste caso o preço
-        [HttpPatch("{idJogo:guid}/preco/{preco:double")]
+        [HttpPatch("{idJogo:guid}/preco/{preco:double}")]
         public async Task<ActionResult> AtualizarJogo([FromRoute] Guid idJogo, [FromRoute] double preco)
         {
             try
@@ -91,8 +97,7 @@ namespace ApiCatalogoJogos.Controllers.V1
 
                 return Ok();
             }
-            //catch (JogoNaoCadastradoException ex)
-            catch (Exception ex)
+            catch (JogoNaoCadastradoException ex)
             {
                 return NotFound("Não existe este jogo");
             }
@@ -107,8 +112,7 @@ namespace ApiCatalogoJogos.Controllers.V1
 
                 return Ok();
             }
-            //catch (JogoNaoCadastradoException ex)
-            catch (Exception ex)
+            catch (JogoNaoCadastradoException ex)
             {
                 return NotFound("Não existe este jogo");
             }

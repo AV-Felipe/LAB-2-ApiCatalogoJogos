@@ -13,7 +13,7 @@ namespace ApiCatalogoJogos.Services
    */
    //na interface possuímos apenas a "assinatura" de métodos, prpriedades, eventos e indexadores. A implementação desses se dá por meio de uma classe ou struct
       
-    public interface IJogoService
+    public interface IJogoService :IDisposable
     {
         Task<List<JogoViewModel>> Obter(int pagina, int quantidade); //para a otimização de recursos, prevendo uma lista muito grande, aqui trabalharemos com paginação
         Task<JogoViewModel> Obter(Guid id);
