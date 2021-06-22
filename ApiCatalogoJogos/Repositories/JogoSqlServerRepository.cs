@@ -12,7 +12,7 @@ namespace ApiCatalogoJogos.Repositories
     {
         private readonly SqlConnection sqlConnection;
 
-        public JogoSqlServerRepository(IConfiguration configuration)
+        public JogoSqlServerRepository(IConfiguration configuration) //IConfiguration serve para buscar informações no appsettings
         {
             sqlConnection = new SqlConnection(configuration.GetConnectionString("Default"));
         }
@@ -34,6 +34,8 @@ namespace ApiCatalogoJogos.Repositories
                     Id = (Guid)sqlDataReader["Id"],
                     name = (string)sqlDataReader["Nome"],
                     produtora = (string)sqlDataReader["Produtora"],
+                    plataforma = (string)sqlDataReader["Plataforma"],
+                    genero = (string)sqlDataReader["Genero"],
                     preco = (double)sqlDataReader["Preco"]
                 });
             }
@@ -60,6 +62,8 @@ namespace ApiCatalogoJogos.Repositories
                     Id = (Guid)sqlDataReader["Id"],
                     name = (string)sqlDataReader["Nome"],
                     produtora = (string)sqlDataReader["Produtora"],
+                    plataforma = (string)sqlDataReader["Plataforma"],
+                    genero = (string)sqlDataReader["Genero"],
                     preco = (double)sqlDataReader["Preco"]
                 };
             }
@@ -86,6 +90,8 @@ namespace ApiCatalogoJogos.Repositories
                     Id = (Guid)sqlDataReader["Id"],
                     name = (string)sqlDataReader["Nome"],
                     produtora = (string)sqlDataReader["Produtora"],
+                    plataforma = (string)sqlDataReader["Plataforma"],
+                    genero = (string)sqlDataReader["Genero"],
                     preco = (double)sqlDataReader["Preco"]
                 });
             }
@@ -97,7 +103,7 @@ namespace ApiCatalogoJogos.Repositories
 
         public async Task Inserir(Jogo jogo)
         {
-            var comando = $"insert Jogos (Id, Nome, Produtora, Preco) values ('{jogo.Id}', '{jogo.name}', '{jogo.produtora}', {jogo.preco.ToString().Replace(",", ".")})";
+            var comando = $"insert Jogos (Id, Nome, Produtora, Plataforma, Genero, Preco) values ('{jogo.Id}', '{jogo.name}', '{jogo.produtora}','{jogo.plataforma}', '{jogo.genero}', {jogo.preco.ToString().Replace(",", ".")})";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
@@ -107,7 +113,7 @@ namespace ApiCatalogoJogos.Repositories
 
         public async Task Atualizar(Jogo jogo)
         {
-            var comando = $"update Jogos set Nome = '{jogo.name}', Produtora = '{jogo.produtora}', Preco = {jogo.preco.ToString().Replace(",", ".")} where Id = '{jogo.Id}'";
+            var comando = $"update Jogos set Nome = '{jogo.name}', Produtora = '{jogo.produtora}', Plataforma = '{jogo.plataforma }', Genero = '{jogo.genero}',Preco = {jogo.preco.ToString().Replace(",", ".")} where Id = '{jogo.Id}'";
 
             await sqlConnection.OpenAsync();
             SqlCommand sqlCommand = new SqlCommand(comando, sqlConnection);
