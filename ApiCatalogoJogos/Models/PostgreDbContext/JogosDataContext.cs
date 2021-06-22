@@ -12,6 +12,6 @@ namespace ApiCatalogoJogos.Models.PostgreDbContext
         public JogosDataContext(DbContextOptions<JogosDataContext>options) : base(options)
         { }
 
-        public DbSet<Jogo> TabelaJogos { get; set; }
+        public DbSet<Jogo> tabelajogos { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace ApiCatalogoJogos
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IJogoService, JogoService>(); //aqui estamos dizendo que, para cada vez que IJogoService for passado para o construtor, precisa ser gerada uma instância de JogoService
-            services.AddScoped<IJogoRepository, JogoRepository>();
+            services.AddScoped<IJogoRepository, JogoPostgreRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
