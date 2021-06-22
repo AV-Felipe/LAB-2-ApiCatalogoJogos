@@ -11,7 +11,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ApiCatalogoJogos
@@ -35,6 +37,12 @@ namespace ApiCatalogoJogos
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiCatalogoJogos", Version = "v1" });
+                //técnica de reflection para pegar o caminho e nome do xml da aplicação para passar para o swagger
+                //suprimir o warning 1591 nas propriedades do projeto principal, para evitar avisos de falta de documentação
+                // para passarmos comentários para o swagger, devemos marcar os mesmos com três barras (ao invés das 2 habituais)
+                var basePath = AppDomain.CurrentDomain.BaseDirectory;
+                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+                c.IncludeXmlComments(Path.Combine(basePath, fileName));
             });
         }
 
